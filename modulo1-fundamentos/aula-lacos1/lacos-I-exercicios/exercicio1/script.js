@@ -6,14 +6,11 @@
 
 let querCoxinha = prompt(`Gostaria de comer mais uma coxinha? 
 S - Sim
-N - Não`).toUpperCase().trim()
+N - Não`).toUpperCase()
 let conta = 2.50
-// let unidade = 1
 
 while(querCoxinha !== `N`){
-    // unidade ++
-    // conta = unidade*2.50
-    conta = conta + 2.50
-    querCoxinha = prompt(`Gostaria de comer mais uma coxinha?`).toUpperCase().trim()
+    conta += 2.50
+    querCoxinha = prompt(`Gostaria de comer mais uma coxinha?`).toUpperCase()
 }
 console.log(`O valor da sua conta é: R$${conta}`)
