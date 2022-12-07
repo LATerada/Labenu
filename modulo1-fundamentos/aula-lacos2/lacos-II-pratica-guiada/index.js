@@ -46,12 +46,42 @@
 // //     console.log(`A soma do Bimestre ${+(b) + 1} é ${sum} e a média é ${med}`)
 // // }
 
+
 // CHALLENGE
 // Escreva uma função que recebe um ano de início e um ano de fim e imprime no console todas as sextas-feiras 13 entre o período. Exemplo: a entrada 2021, 2022 gera dois console.logs, 13 de agosto 2021 e 13 de maio de 2022.
 
-// function sextaFeira13 (anoInicio,anoFim){
-//     if(dia === sexta && dia ===13)
-//     console.log()
-// }
+function sextaFeira13 (ano1,ano2){
 
-// nao finalizado
+    const data = {
+        ano: [ano1,ano2],
+        mes: [`Janeiro`, `Fevereiro`,`Março`, `Abril`,`Maio`,`Junho`,`Julho`,`Agosto`,`Setembro`,`Outubro`,`Novembro`,`Dezembro`],
+        dias: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+        semana: [0,1,2,3,4,5,6],
+    }
+    
+    if(ano1 > ano2){
+        diferencaAnos = ano1 - ano2
+        menorAno = ano2
+    }else{
+        diferencaAnos = ano2 - ano1
+        menorAno = ano1
+    }
+
+    for(i = 1; i < diferencaAnos; i++){
+        novoAno = menorAno + i
+        data.ano.push(novoAno)
+    }
+    data.ano.sort()
+
+    for(i = 0; i < data.ano.length; i++){
+        for(j = 0; j < data.mes.length; j++){
+            for(k = 0; k < data.dias.length; k++){
+                let testeData = new Date ([data.ano[i]],[j],[k])
+                if(testeData.getDate() === 13 && testeData.getDay() === 5){
+                    console.log(`Dia ${[k]} de ${data.mes[j]} de ${data.ano[i]} é uma SEXTA-FEIRA 13!`)
+                }
+            }
+        }
+    }
+}
+sextaFeira13(2035,2024)
