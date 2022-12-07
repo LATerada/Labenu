@@ -84,4 +84,4 @@ function sextaFeira13 (ano1,ano2){
         }
     }
 }
-sextaFeira13(2035,2024)
+sextaFeira13(2021,2022)
