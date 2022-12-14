@@ -1,0 +1,38 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* reset css */
+
+.bloco{
+    color: white;
+    width: 21vw;
+    min-width: 288px;/*para nao desconfigurar a imagem */
+    margin: 0.7vw 1.21vh;
+    padding: 1.21vh 0.83vw 2.42vh 0.7vw;
+}
+
+main{
+    font-family: Helvetica, sans-serif;
+}
+
+#bloco-1{
+    background-color: orange;
+    border: 5px solid #feb429;
+}
+
+#bloco-2{
+    background-color: #2d872dd9;
+    border: 5px solid #66b966;
+}
+
+#bloco-3{
+    background-color: darkgreen;
+    border: 5px dashed lightgreen;
+}
+
+#bloco-4{
+    background-color: red;
+    border: 5px dashed lightcoral;
+}
