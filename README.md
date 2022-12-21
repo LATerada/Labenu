@@ -1,5 +1,3 @@
 # Labenu
-
-    Este é o meu repositório da Labenu!
-    Aqui estão exercícios, práticas guiadas das aulas e projetos!
     
+    Here you will find some exercise resolutions, guided practices from classes and projects!
