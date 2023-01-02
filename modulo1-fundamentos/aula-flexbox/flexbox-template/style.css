@@ -1,0 +1,62 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.border{
+    border: 1px solid black;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    align-items: center;
+}
+
+button{
+    padding: 0 12px;
+}
+
+main{
+    background-color: lightblue;
+    flex-grow: 1;
+    display: flex;
+}
+figure{
+    width: 200px;
+}
+img{
+    width: 199px;
+    height: 160px;
+}
+.cards{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+nav{
+    padding: 12px;
+    flex-grow: 2;
+}
+section{
+    padding: 12px;
+    flex-grow: 3;
+}
+aside{
+    padding: 12px;
+    flex-grow: 1;
+}
+
+footer{
+    padding: 12px;
+    background-color: lightseagreen;
+}

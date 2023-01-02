@@ -1,0 +1,42 @@
+  header{
+    border-bottom: 1px solid black;
+    text-align: center;
+  }
+  
+  main{
+    width: 800px;
+    height: 180vh;
+    margin: auto;
+  }
+
+  aside{
+    position: fixed;
+    right: 0;
+    width: 180px;
+    border: 1px solid black;
+    text-align: center;
+    background-color: white;
+  }
+
+  footer{
+    position: sticky;
+    bottom: 0;
+    background-color: black;
+    color: white;
+    width: 100%;
+  }
+  
+  button{
+    background-color: black;
+    color: white;
+    font-family: serif;
+  }
+  button:active{
+    background-color: white;
+    color: black;
+  }
+
+  aside:has(button:active){
+    background-color: black;
+    color: white;
+  } 
