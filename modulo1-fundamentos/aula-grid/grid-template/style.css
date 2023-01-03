@@ -1,0 +1,59 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container{
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 10fr 85fr 5fr;
+}
+header{
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: 100px 1fr 100px;
+    align-items: center;
+    justify-items: center;
+}
+section:last-child{
+    grid-column: 3;
+}
+button{
+    padding: 0 16px;
+}
+main{
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: 20vw 65vw 15vw;
+}
+aside{
+    border: 1px solid black;
+    padding: 12px;
+}
+.content-container{
+    border: 1px solid black;
+    padding: 12px;
+}
+.gallery{
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,200px);
+    /* grid-template-columns: repeat(4,1fr); */
+    /* grid-template-rows: 1fr 1fr; linhas implícitas, nao é necessario colocar */
+    grid-gap: 10px;
+    align-items: center;
+    justify-items: center;
+}
+figure{
+    border: 1px solid black;
+    width: fit-content;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+footer{
+    border: 1px solid black;
+    display: grid;
+    align-items: center;
+    padding: 0 12px;
+}
