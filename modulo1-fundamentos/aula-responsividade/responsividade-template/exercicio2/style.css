@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+main{
+    display: grid;
+    grid-template-columns:repeat(3,33vw);
+}
+section{
+    border: 1px solid black;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    width: 33vw;
+    height: 40vh;
+}
+
+@media screen /*and (min-device-width: 320px)*/ and (max-width: 480px){
+    /* tomar cuidado em colocar min, pois se o mobile for menor que 320px, o mobile vai assumir versao desktop */
+    main{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    
+    section{
+        color: red;
+        min-width: 100vw;
+        height: 20vh;
+        display: grid;
+        justify-items: center;
+        align-items: flex-start;
+    }
+}
+    
