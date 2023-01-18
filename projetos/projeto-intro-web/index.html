@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmes</title>
+    <link rel="icon" href="./media/premiere.png" type="imagem/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni&family=Noto+Serif+Oriya&family=Roboto+Flex:opsz,wght@8..144,300&family=Rubik+Gemstones&display=swap" rel="stylesheet">
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>FILMES NOMEADOS AO OSCAR
+            </h2>
+            <img id="oscar-icon" src="./media/oscar-gold.png" alt="Oscar">
+        </header>
+        <main class="container-nav-main">
+            <nav>
+                <label for="filme">Filme:</label>
+                <input name="filme" type="text" id="film-input" placeholder="Nome do filme">
+                <button onclick="searchFilm()" id="search" type="button"><i class="material-icons">search</i></button>
+                <!-- usar biblioteca de icones ao inves de download,para facilitar ao trazer icones novos ou trocar icones -->
+            </nav>
+            <div id="main-filmes">
+                <div id="hidden-message">Nenhum filme encontrado.</div>
+            </div>
+        </main>
+        <footer id="footer">
+            <span>Criado por Larissa Terada</span>
+            <span>Github @LATerada</span>
+        </footer>
+    </div>
+</body>
+</html>
