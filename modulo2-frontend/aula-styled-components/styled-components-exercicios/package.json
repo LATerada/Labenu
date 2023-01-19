@@ -1,0 +1,25 @@
+{
+  "name": "template-exercicio-styled-components",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-scripts": "4.0.0",
+    "styled-components": "^5.3.6"
+  },
+  "scripts": {
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
