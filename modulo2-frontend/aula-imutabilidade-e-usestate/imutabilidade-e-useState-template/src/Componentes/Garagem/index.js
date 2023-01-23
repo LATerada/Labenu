@@ -2,7 +2,7 @@ import { Carro } from '../Carro'
 import { Botao, Estacionamento, GaragemContainer } from './styles'
 import { useState } from 'react';
 
-export function Garagem({ nome }) {
+export function Garagem({ nome, mudaNome }) {
   const [carro,setCarro] = useState({
     cor:"rosa",
     ano:1993,
@@ -19,40 +19,34 @@ export function Garagem({ nome }) {
     flex: true,
   };
 
-  const car1 = {
-    cor:"Preto",
-    ano:2015,
-    flex: false,
-    adicionadoPor:"Larissa",
-    modelo: "WRV"
-  }
+  const[carro2,setCarro2] = useState({
+      modelo: "WRV",
+      cor:"Preto",
+      ano:2015,
+      adicionadoPor:"Larissa",
+      flex: false,
+  })
 
-  const car2 = {
+  const[carro3,setCarro3] = useState({
+    modelo: "HB20",
     cor:"Preto",
     ano:2017,
-    flex: false,
     adicionadoPor:"Larissa",
-    modelo: "HB20"
-  }
+    flex: false,
+  })
 
-  const car3 = {
+  const[carro4,setCarro4] = useState({
+    modelo: "NEW BEATLE",
     cor:"Preto",
     ano:2010,
-    flex: false,
     adicionadoPor:"Larissa",
-    modelo: "NEW BEATLE"
-  }
-
-  const[carro2,setCarro2] = useState({car1})
-
-  const[carro3,setCarro3] = useState({car2})
-
-  const[carro4,setCarro4] = useState({car3})
+    flex: false,
+  })
 
   return (
     <GaragemContainer>
       <h1>Garagem da {nome}</h1>
-      <Botao onClick={mudaNome} >Muda nome</Botao>
+      <Botao onClick={() => mudaNome()} >Muda nome</Botao>
 
       <Estacionamento>
         <Carro
@@ -62,7 +56,7 @@ export function Garagem({ nome }) {
           adicionadoPor={carro.adicionadoPor}
           flex={carro.flex}
           setCarro = {setCarro}
-          automovel={automovel}
+          automovel={carro4}
         />
         <Carro
           modelo={carro2.modelo}
@@ -71,7 +65,7 @@ export function Garagem({ nome }) {
           adicionadoPor={carro2.adicionadoPor}
           flex={carro2.flex}
           setCarro = {setCarro2}
-          automovel={carro}
+          automovel={carro3}
         />
         <Carro
           modelo={carro3.modelo}
@@ -89,7 +83,7 @@ export function Garagem({ nome }) {
           adicionadoPor={carro4.adicionadoPor}
           flex={carro4.flex}
           setCarro = {setCarro4}
-          automovel={automovel}
+          automovel={carro2}
         />
       </Estacionamento>
     </GaragemContainer>
