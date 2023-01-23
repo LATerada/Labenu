@@ -10,6 +10,11 @@ export const Card = styled.div`
   box-shadow: 10px 10px 30px #bdbdbd;
 `;
 
+export const PokemonImage = styled.img`
+    /* width: 15rem; */
+    height: 15rem;
+`
+
 export const PokemonName = styled.h2`
     border-top: 2px solid black;
     padding: 0.5rem 0;

@@ -19,14 +19,21 @@ Caso queira criar uma nova aplicação React, basta copiar os conteúdos deste r
 
 Primeiro, vamos analisar todo o código que vocês estão recebendo. 
 
-- Observe o `App.js`, o que você consegue visualizar que já conhece? 
-- Entende o `<GlobalStyles/>`?
-- Analize o useState criado, que tipo de dado está armazenado neste estado?
+- Observe o `App.js`, o que você consegue visualizar que já conhece? Conheco todo o App.js
+- Entende o `<GlobalStyles/>`? Sim
+- Analize o useState criado, que tipo de dado está armazenado neste estado? Objeto
 
-- Agora analize o `JSX`, quais componentes existem nesta aplicação?
-- O que existe dentro do componente `PokemonCard`?
-- O que a função `evoluirPokemon` está fazendo no momento?
-- Quais informações estão sendo recebidas pelo componente PokemonCard via props?
+- Agora analize o `JSX`, quais componentes existem nesta aplicação? GlobalStyles , FlexContainer , PokemonCard
+- O que existe dentro do componente `PokemonCard`? os componentes Card, PokemonName, PokemonType, EvolveButton.
+- O que a função `evoluirPokemon` está fazendo no momento? imprimindo no console a msg: "Cliquei no botão de evoluir"
+- Quais informações estão sendo recebidas pelo componente PokemonCard via props? 
+    name,
+    type,
+    evolved,
+    weight,
+    color,
+    image,
+    id,
 
 
 # Exercício 2
