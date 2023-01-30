@@ -23,6 +23,19 @@ function TelaCadastro(props) {
     setPasswordConfirmation(event.target.value)
   }
 
+  const verification = () => {
+    if(name && email && password){
+      if(password === passwordConfirmation){
+        props.mudarTela(3)
+      }else(
+        alert("Senhas não são iguais.")
+      )
+    }
+    else{
+      alert("É preciso preencher todos os campos corretamente para prosseguir para próxima página.")
+    }
+  }
+
   return (
     <FormContainer>
       <h1>Cadastro </h1>
@@ -43,7 +56,7 @@ function TelaCadastro(props) {
           Confirmação da senha:
           <Input id="confirmacaoSenha" value={passwordConfirmation} onChange={handlePasswordConfirmation}  />
         </StyledLabel>
-        <SendButton onClick={() => {props.mudarTela(3)}}>Próximo</SendButton>
+        <SendButton onClick={verification}>Próximo</SendButton>
         <BackToLoginButton onClick={() => props.mudarTela(1)}>Já possuo um cadastro</BackToLoginButton>
       </Form>
     </FormContainer>
