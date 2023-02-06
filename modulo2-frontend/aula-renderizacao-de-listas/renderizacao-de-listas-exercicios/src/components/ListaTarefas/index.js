@@ -38,8 +38,7 @@ export function ListaTarefas() {
     // const listaTarefaConcluida2 = lista.filter((item,indice)=> indice === index )
     // setListaTarefaConcluida([...listaTarefaConcluida, listaTarefaConcluida2])
     // console.log(listaTarefaConcluida)
-
-
+    
     // ESTA RESOLUCAO NAO ESTA 100%, POR DEPENDER DO ESTADO
     // for(let tarefa of lista){
     //     if(listaFiltrada.includes(tarefa) === false ){
@@ -49,6 +48,7 @@ export function ListaTarefas() {
     //       setListaTarefaConcluida(listaTarefaConcluida2)
     //     }
     // }
+
     console.log({lista,listaFiltrada,listaTarefaConcluida})
     const listaTarefaConcluida2 = [...listaTarefaConcluida, tarefafeita]
     setListaTarefaConcluida(listaTarefaConcluida2)
