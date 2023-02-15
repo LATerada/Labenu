@@ -23,6 +23,8 @@ import axios from "axios";
 
 function Playlists() {
     const [playlists, setPlaylists] = useState([])
+    const [pesquisa,setPesquisa] = useState("")
+    const [novaPlaylist,setNovaPlaylist] = useState("")
 
     const headers = {
         headers: {
@@ -30,26 +32,78 @@ function Playlists() {
           }
     }
 
-    const receberMusicas = () => {
+    const criarNovaPlaylist = async () => {
+        const body = {
+            name: novaPlaylist
+        }
+        try{
+            await axios.post(`https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists`, body, headers)
+            receberPlaylists()
+        }catch (error) {
+            console.log(error.response.data)
+        }
+    }
+
+    const pesquisarPlaylist = async () => {
+        try{
+            const response = await axios.get(`https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists/search?name=${pesquisa}`, headers)
+            console.log(response)
+            const data = response.data
+            setPlaylists(data.result.playlist)
+            setPesquisa("")
+        }catch (error) {
+            console.log(error.response)
+        }
+    }
+
+    const deletarPlaylist = async (id) => {
+        try{
+            await axios.delete(`https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists/${id}`, headers)
+            receberPlaylists()
+        }catch (error) {
+            console.log(error.response.data.message)
+        }
+    }
+
+    const receberPlaylists = () => {
         axios
-        .get(
-        "https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists",
-        headers
-        ).then((response) => {
-            setPlaylists(response.data.result.list)
-        }).catch((error) => {
-            console.log(error.response.message)
-        })
+            .get(
+            "https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists",
+            headers
+            ).then((response) => {
+                setPlaylists(response.data.result.list)
+            }).catch((error) => {
+                console.log(error.response.message)
+            })
     }
 
     useState(()=> {
-        receberMusicas()
+        receberPlaylists()
     },[])
   
     return (
         <div>
+            <input
+                value={novaPlaylist}
+                onChange={(event) => setNovaPlaylist(event.target.value)}/>
+            <button 
+                onClick={criarNovaPlaylist}>Criar Playlist</button>
+            <input
+                value={pesquisa}
+                onChange={(event) => setPesquisa(event.target.value)}/>
+            <button 
+                onClick={pesquisarPlaylist}>Pesquisar</button>
+                
             {playlists.map((playlist) => {
-                return <Musicas key={playlist.id} playlist={playlist} headers={headers}/>
+                return (
+                <div>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <button onClick={() => deletarPlaylist(playlist.id)} >X</button>
+                    <Musicas key={playlist.id} playlist={playlist} headers={headers}/>
+                </div>)
+  
             })}
 
         </div>
