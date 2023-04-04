@@ -43,3 +43,28 @@ VALUES
 SELECT * FROM pokemons;
 
 -- Práticas
+SELECT id, name, speed FROM pokemons
+WHERE speed > 60;
+
+SELECT id, name, attack,special_attack FROM pokemons
+WHERE attack >= 60 AND special_attack >=60;
+
+SELECT id, name FROM pokemons
+WHERE name LIKE "%saur";
+
+SELECT AVG(hp) as mediaHp FROM pokemons;
+
+SELECT COUNT(*) numeroDePokemons FROM pokemons;
+
+SELECT name, defense FROM pokemons
+ORDER BY defense DESC;
+
+SELECT COUNT(*) as quantidadeTipos,type FROM pokemons GROUP BY "type";
+
+SELECT * FROM pokemons
+LIMIT 3 OFFSET 4;
+
+SELECT * FROM pokemons
+WHERE "type" = 'fire' OR "type" = 'grass'
+ORDER BY attack ASC
+LIMIT 3 OFFSET 2;
