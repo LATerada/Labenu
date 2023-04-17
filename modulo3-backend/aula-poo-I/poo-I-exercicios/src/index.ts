@@ -3,7 +3,6 @@ import cors from "cors";
 import { db } from "./database/knex";
 import { TVideoDB } from "./types";
 import Video from "./models/Video";
-import { title } from "process";
 
 const app = express();
 
