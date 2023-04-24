@@ -3,7 +3,8 @@ export class Character {
     private id: string,
     private name: string,
     private species: string,
-    private stars: number
+    private stars: number,
+    private coins: number
   ) {}
 
   public getId(): string {
@@ -18,6 +19,9 @@ export class Character {
   public getStars(): number {
     return this.stars;
   }
+  public getCoins(): number {
+    return this.coins;
+  }
 
   public setName(value: string) {
     this.name = value;
@@ -25,24 +29,11 @@ export class Character {
   public setSpecies(value: string) {
     this.species = value;
   }
+
   public setStars(value: number) {
     this.stars = value;
   }
-
-  //   get charId(): string {
-  //     return this.id;
-  //   }
-  //   get charName(): string {
-  //     return this.name;
-  //   }
-  //   get charSpecies(): string {
-  //     return this.species;
-  //   }
-
-  //   set charName(value: string) {
-  //     this.name = value;
-  //   }
-  //   set charSpecies(value: string) {
-  //     this.species = value;
-  //   }
+  public setCoins(value: number) {
+    this.coins = value;
+  }
 }

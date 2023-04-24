@@ -38,3 +38,5 @@ app.post("/characters", characterController.postCharacter);
 app.put("/characters/:id", characterController.putCharacters);
 
 app.delete("/characters/:id", characterController.deleteCharacter);
+
+app.get("/characters/:id", characterController.getBalanceById);
