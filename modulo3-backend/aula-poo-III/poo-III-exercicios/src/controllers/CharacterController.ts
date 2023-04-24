@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { CharacterBusiness } from "../business/CharacterBusiness";
 
 export class CharacterController {
-  public getCharacters = async (req: Request, res: Response) => {
+  getCharacters = async (req: Request, res: Response) => {
     try {
       const input = { q: req.query.q };
 
@@ -25,7 +25,7 @@ export class CharacterController {
     }
   };
 
-  public postCharacter = async (req: Request, res: Response) => {
+  postCharacter = async (req: Request, res: Response) => {
     try {
       const input = {
         id: req.body.id,
@@ -52,14 +52,14 @@ export class CharacterController {
     }
   };
 
-  public putCharacters = async (req: Request, res: Response) => {
+  putCharacters = async (req: Request, res: Response) => {
     try {
       const input = {
-        idToEdit: req.params.id,
-        newName: req.body.name,
-        newSpecies: req.body.species,
-        newStars: req.body.addStars,
-        newCoins: req.body.addCoins,
+        idToEdit: req.params.id as string,
+        newName: req.body.name as string | undefined,
+        newSpecies: req.body.species as string | undefined,
+        newStars: req.body.addStars as number | undefined,
+        newCoins: req.body.addCoins as number | undefined,
       };
 
       const characterBusiness = new CharacterBusiness();
@@ -81,7 +81,7 @@ export class CharacterController {
     }
   };
 
-  public deleteCharacter = async (req: Request, res: Response) => {
+  deleteCharacter = async (req: Request, res: Response) => {
     try {
       const input = { idToDelete: req.params.id };
 
@@ -104,7 +104,7 @@ export class CharacterController {
     }
   };
 
-  public getBalanceById = async (req: Request, res: Response) => {
+  getBalanceById = async (req: Request, res: Response) => {
     try {
       const input = { id: req.params.id };
 

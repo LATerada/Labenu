@@ -7,33 +7,33 @@ export class Character {
     private coins: number
   ) {}
 
-  public getId(): string {
+  getId(): string {
     return this.id;
   }
-  public getName(): string {
+  getName(): string {
     return this.name;
   }
-  public getSpecies(): string {
+  getSpecies(): string {
     return this.species;
   }
-  public getStars(): number {
+  getStars(): number {
     return this.stars;
   }
-  public getCoins(): number {
+  getCoins(): number {
     return this.coins;
   }
 
-  public setName(value: string) {
+  setName(value: string) {
     this.name = value;
   }
-  public setSpecies(value: string) {
+  setSpecies(value: string) {
     this.species = value;
   }
 
-  public setStars(value: number) {
+  setStars(value: number) {
     this.stars = value;
   }
-  public setCoins(value: number) {
+  setCoins(value: number) {
     this.coins = value;
   }
 }
