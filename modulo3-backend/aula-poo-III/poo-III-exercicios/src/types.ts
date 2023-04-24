@@ -3,4 +3,5 @@ export interface CharacterDB {
   name: string;
   species: string;
   stars: number;
+  coins: number;
 }
