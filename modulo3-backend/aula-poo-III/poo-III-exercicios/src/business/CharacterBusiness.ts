@@ -3,7 +3,7 @@ import { Character } from "../models/Character";
 import { CharacterDB } from "../types";
 
 export class CharacterBusiness {
-  public getCharacters = async (input: any) => {
+  getCharacters = async (input: any) => {
     const { q } = input;
     const characterDatabase = new CharacterDatabase();
     const charactersDB: CharacterDB[] = await characterDatabase.findCharacters(
@@ -27,7 +27,7 @@ export class CharacterBusiness {
 
     return output;
   };
-  public postCharacter = async (input: any) => {
+  postCharacter = async (input: any) => {
     const { id, name, species } = input;
 
     if (typeof id !== "string") {
@@ -68,8 +68,9 @@ export class CharacterBusiness {
 
     return output;
   };
-  public putCharacter = async (input: any) => {
+  putCharacter = async (input: any) => {
     const { idToEdit, newName, newSpecies, newStars, newCoins } = input;
+
     if (newName !== undefined) {
       if (typeof newName !== "string") {
         throw new Error("'name' deve ser string");
@@ -128,7 +129,7 @@ export class CharacterBusiness {
 
     return output;
   };
-  public deleteCharacter = async (input: any) => {
+  deleteCharacter = async (input: any) => {
     const { idToDelete } = input;
 
     if (idToDelete[0] !== "c") {
@@ -153,7 +154,7 @@ export class CharacterBusiness {
     return output;
   };
 
-  public getBalanceById = async (input: any) => {
+  getBalanceById = async (input: any) => {
     const { id } = input;
 
     if (id !== undefined) {
