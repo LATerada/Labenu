@@ -156,11 +156,23 @@ export class CharacterBusiness {
   public getBalanceById = async (input: any) => {
     const { id } = input;
 
+    if (id !== undefined) {
+      if (typeof id !== "string") {
+        throw new Error("'id' deve ser string");
+      }
+      if (id[0] !== "c") {
+        throw new Error("'id' inválido");
+      }
+      if (id.length > 4) {
+        throw new Error("'id' deve conter pelo menos 4 caracteres");
+      }
+    }
+
     const characterDatabase = new CharacterDatabase();
     const characterDB = await characterDatabase.findCharacterById(id);
 
     if (!characterDB) {
-      throw new Error("Personagem não existe");
+      throw new Error("'id' não existe");
     }
 
     const character = new Character(
