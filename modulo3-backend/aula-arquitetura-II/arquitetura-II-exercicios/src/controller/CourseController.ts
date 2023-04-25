@@ -50,7 +50,6 @@ export class CourseController {
   putCourse = async (req: Request, res: Response) => {
     const input = {
       idToEdit: req.params.id,
-      newId: req.body.id,
       newName: req.body.name,
       newLessons: req.body.lessons,
     };
