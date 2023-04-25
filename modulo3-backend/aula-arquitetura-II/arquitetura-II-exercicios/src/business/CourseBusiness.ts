@@ -63,13 +63,7 @@ export class CourseBusiness {
   };
 
   putCourse = async (input: any) => {
-    const { idToEdit, newId, newName, newLessons } = input;
-
-    if (newId !== undefined) {
-      if (typeof newId !== "string") {
-        throw new BadRequestError("'id' deve ser string");
-      }
-    }
+    const { idToEdit, newName, newLessons } = input;
 
     if (newName !== undefined) {
       if (typeof newName !== "string") {
@@ -91,7 +85,7 @@ export class CourseBusiness {
     }
 
     const newCourse = new Course(
-      newId ? newId : courseDB.id,
+      courseDB.id,
       newName ? newName : courseDB.name,
       newLessons ? newLessons : courseDB.lessons
     );
@@ -102,7 +96,7 @@ export class CourseBusiness {
       lessons: newCourse.getLessons(),
     };
 
-    await courseDatabase.editCourse(newCourseDB, idToEdit);
+    await courseDatabase.editCourse(newCourseDB);
 
     const output = {
       message: "Curso editado com sucesso.",

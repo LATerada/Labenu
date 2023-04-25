@@ -31,13 +31,10 @@ export class CourseDatabase extends BaseDataBase {
     );
   }
 
-  public async editCourse(
-    newCourse: CourseDB,
-    idToEdit: string
-  ): Promise<void> {
+  public async editCourse(newCourse: CourseDB): Promise<void> {
     await BaseDataBase.connection(CourseDatabase.TABLE_COURSES)
       .update(newCourse)
-      .where({ id: idToEdit });
+      .where({ id: newCourse.id });
   }
 
   public async removeCourse(id: string): Promise<void> {
