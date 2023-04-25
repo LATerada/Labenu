@@ -1,5 +1,6 @@
 import { CourseDatabase } from "../database/CourseDatabase";
 import { BadRequestError } from "../errors/BadRequestError";
+import { NotFoundError } from "../errors/NotFoundError";
 import { Course } from "../models/Course";
 import { CourseDB } from "../types";
 
@@ -56,6 +57,25 @@ export class CourseBusiness {
     const output = {
       message: "Curso criado com sucesso",
       newCourse: newCourseDB,
+    };
+
+    return output;
+  };
+
+  deleteCourse = async (input: any) => {
+    const { idToDelete } = input;
+
+    const courseDatabase = new CourseDatabase();
+    const courseDB = await courseDatabase.findCourseById(idToDelete);
+
+    if (!courseDB) {
+      throw new NotFoundError("'id' não encontrado");
+    }
+
+    await courseDatabase.removeCourse(courseDB.id);
+
+    const output = {
+      message: "Curso deletado com sucesso.",
     };
 
     return output;

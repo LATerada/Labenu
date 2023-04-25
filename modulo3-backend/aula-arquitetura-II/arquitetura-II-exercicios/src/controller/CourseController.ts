@@ -33,7 +33,7 @@ export class CourseController {
       };
 
       const courseBusiness = new CourseBusiness();
-      const output = courseBusiness.postCourse(input);
+      const output = await courseBusiness.postCourse(input);
 
       res.status(201).send(output);
     } catch (error) {
@@ -45,5 +45,14 @@ export class CourseController {
         res.status(500).send("Erro inesperado.");
       }
     }
+  };
+
+  deleteCourse = async (req: Request, res: Response) => {
+    const input = { idToDelete: req.params.id };
+
+    const courseBusiness = new CourseBusiness();
+    const output = await courseBusiness.deleteCourse(input);
+
+    res.status(201).send(output);
   };
 }
