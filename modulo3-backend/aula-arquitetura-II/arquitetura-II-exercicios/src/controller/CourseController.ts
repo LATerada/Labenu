@@ -47,6 +47,20 @@ export class CourseController {
     }
   };
 
+  putCourse = async (req: Request, res: Response) => {
+    const input = {
+      idToEdit: req.params.id,
+      newId: req.body.id,
+      newName: req.body.name,
+      newLessons: req.body.lessons,
+    };
+
+    const courseBusiness = new CourseBusiness();
+    const output = await courseBusiness.putCourse(input);
+
+    res.status(201).send(output);
+  };
+
   deleteCourse = async (req: Request, res: Response) => {
     const input = { idToDelete: req.params.id };
 

@@ -62,6 +62,56 @@ export class CourseBusiness {
     return output;
   };
 
+  putCourse = async (input: any) => {
+    const { idToEdit, newId, newName, newLessons } = input;
+
+    if (newId !== undefined) {
+      if (typeof newId !== "string") {
+        throw new BadRequestError("'id' deve ser string");
+      }
+    }
+
+    if (newName !== undefined) {
+      if (typeof newName !== "string") {
+        throw new BadRequestError("'name' deve ser string");
+      }
+    }
+
+    if (newLessons !== undefined) {
+      if (typeof newLessons !== "number") {
+        throw new BadRequestError("'lessons' deve ser number");
+      }
+    }
+
+    const courseDatabase = new CourseDatabase();
+    const courseDB = await courseDatabase.findCourseById(idToEdit);
+
+    if (!courseDB) {
+      throw new NotFoundError("'id' não encontrado");
+    }
+
+    const newCourse = new Course(
+      newId ? newId : courseDB.id,
+      newName ? newName : courseDB.name,
+      newLessons ? newLessons : courseDB.lessons
+    );
+
+    const newCourseDB: CourseDB = {
+      id: newCourse.getId(),
+      name: newCourse.getName(),
+      lessons: newCourse.getLessons(),
+    };
+
+    await courseDatabase.editCourse(newCourseDB, idToEdit);
+
+    const output = {
+      message: "Curso editado com sucesso.",
+      updatedCourse: newCourseDB,
+    };
+
+    return output;
+  };
+
   deleteCourse = async (input: any) => {
     const { idToDelete } = input;
 
