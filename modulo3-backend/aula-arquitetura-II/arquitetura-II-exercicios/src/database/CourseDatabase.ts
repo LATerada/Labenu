@@ -31,6 +31,15 @@ export class CourseDatabase extends BaseDataBase {
     );
   }
 
+  public async editCourse(
+    newCourse: CourseDB,
+    idToEdit: string
+  ): Promise<void> {
+    await BaseDataBase.connection(CourseDatabase.TABLE_COURSES)
+      .update(newCourse)
+      .where({ id: idToEdit });
+  }
+
   public async removeCourse(id: string): Promise<void> {
     await BaseDataBase.connection(CourseDatabase.TABLE_COURSES)
       .del()
