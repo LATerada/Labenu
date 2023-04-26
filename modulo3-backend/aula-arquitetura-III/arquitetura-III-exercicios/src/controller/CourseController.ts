@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ZodError } from "zod";
 import { CourseBusiness } from "../business/CourseBusiness";
 import { CreateCourseSchema } from "../dtos/createCourse.dto";
+import { DeleteCourseSchema } from "../dtos/deleteCourse.dto";
 import { BaseError } from "../errors/BaseError";
 
 export class CourseController {
@@ -76,9 +77,9 @@ export class CourseController {
 
   public deleteCourse = async (req: Request, res: Response) => {
     try {
-      const input = {
+      const input = DeleteCourseSchema.parse({
         idToDelete: req.params.id,
-      };
+      });
 
       const output = await this.courseBusiness.deleteCourse(input);
 
@@ -86,6 +87,9 @@ export class CourseController {
     } catch (error) {
       console.log(error);
 
+      if (error instanceof ZodError) {
+        res.status(400).send(error.issues);
+      }
       if (error instanceof BaseError) {
         res.status(error.statusCode).send(error.message);
       } else {

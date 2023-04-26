@@ -3,6 +3,10 @@ import {
   CreateCourseInputDTO,
   CreateCourseOutputDTO,
 } from "../dtos/createCourse.dto";
+import {
+  DeleteCourseInputDTO,
+  DeleteCourseOutputDTO,
+} from "../dtos/deleteCourse.dto";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { CourseDB } from "../models/Course";
@@ -141,7 +145,9 @@ export class CourseBusiness {
     return output;
   };
 
-  public deleteCourse = async (input: any) => {
+  public deleteCourse = async (
+    input: DeleteCourseInputDTO
+  ): Promise<DeleteCourseOutputDTO> => {
     const { idToDelete } = input;
 
     const courseToDeleteDB = await this.courseDatabase.findCourseById(
@@ -161,7 +167,7 @@ export class CourseBusiness {
 
     await this.courseDatabase.deleteCourseById(courseToDeleteDB.id);
 
-    const output = {
+    const output: DeleteCourseOutputDTO = {
       message: "Curso deletado com sucesso",
       course: {
         id: course.getId(),
