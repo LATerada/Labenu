@@ -7,6 +7,10 @@ import {
   DeleteCourseInputDTO,
   DeleteCourseOutputDTO,
 } from "../dtos/deleteCourse.dto";
+import {
+  EditCourseInputDTO,
+  EditCourseOutputDTO,
+} from "../dtos/editCourse.dto";
 import { GetCourseInputDTO, GetCourseOutputDTO } from "../dtos/getCourses.dto";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
@@ -78,36 +82,10 @@ export class CourseBusiness {
     return output;
   };
 
-  public editCourse = async (input: any) => {
+  public editCourse = async (
+    input: EditCourseInputDTO
+  ): Promise<EditCourseOutputDTO> => {
     const { idToEdit, id, name, lessons } = input;
-
-    if (id !== undefined) {
-      if (typeof id !== "string") {
-        throw new BadRequestError("'id' deve ser string");
-      }
-    }
-
-    if (name !== undefined) {
-      if (typeof name !== "string") {
-        throw new BadRequestError("'name' deve ser string");
-      }
-
-      if (name.length < 2) {
-        throw new BadRequestError(
-          "'name' deve possuir pelo menos 2 caracteres"
-        );
-      }
-    }
-
-    if (lessons !== undefined) {
-      if (typeof lessons !== "number") {
-        throw new BadRequestError("'lessons' deve ser number");
-      }
-
-      if (lessons <= 0) {
-        throw new BadRequestError("'lessons' não pode ser zero ou negativo");
-      }
-    }
 
     const courseToEditDB = await this.courseDatabase.findCourseById(idToEdit);
 
@@ -135,7 +113,7 @@ export class CourseBusiness {
 
     await this.courseDatabase.updateCourse(idToEdit, updatedCourseDB);
 
-    const output = {
+    const output: EditCourseOutputDTO = {
       message: "Curso editado com sucesso",
       course: {
         id: course.getId(),
