@@ -7,6 +7,7 @@ import {
   DeleteCourseInputDTO,
   DeleteCourseOutputDTO,
 } from "../dtos/deleteCourse.dto";
+import { GetCourseInputDTO, GetCourseOutputDTO } from "../dtos/getCourses.dto";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { CourseDB } from "../models/Course";
@@ -15,7 +16,9 @@ import { Course } from "../models/Course";
 export class CourseBusiness {
   constructor(private courseDatabase: CourseDatabase) {}
 
-  public getCourses = async (input: any) => {
+  public getCourses = async (
+    input: GetCourseInputDTO
+  ): Promise<GetCourseOutputDTO[]> => {
     const { q } = input;
 
     const coursesDB = await this.courseDatabase.findCourses(q);
@@ -30,7 +33,7 @@ export class CourseBusiness {
         )
     );
 
-    const output = courses.map((course) => ({
+    const output: GetCourseOutputDTO[] = courses.map((course) => ({
       id: course.getId(),
       name: course.getName(),
       lessons: course.getLessons(),
