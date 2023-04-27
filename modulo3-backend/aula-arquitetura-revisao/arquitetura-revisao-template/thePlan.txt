@@ -1,0 +1,53 @@
+-----------------------------------------------
+table
+-----------------------------------------------
+
+PRODUCTS
+    id TEXT PRIMARY KEY UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+    price REAL NOT NULL,
+    description TEXT NOT NULL,
+    brand_id TEXT FOREIGNT KEY -> BRAND.id
+
+
+BRANDS
+    id TEXT PRIMARY KEY UNIQUE NOT NULL,
+    name TEXT NOT
+    
+
+-----------------------------------------------
+layers
+-----------------------------------------------
+
+index.ts --->>> routers --->>> controller --->>> business --->>> 
+
+database --->>> sql
+
+
+-----------------------------------------------
+business rules
+-----------------------------------------------
+
+getAllBrands
+
+response:
+{
+    id:
+    name
+}
+
+
+getAllProducts
+
+response:
+{
+    id:
+    name:
+    price:
+    description:
+    brand:
+    {
+        id:
+        name:
+    }
+}
