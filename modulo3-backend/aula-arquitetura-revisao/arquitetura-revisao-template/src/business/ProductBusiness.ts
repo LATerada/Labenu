@@ -7,21 +7,28 @@ export class ProductBusiness {
   public async getProducts(input: any) {
     const { q } = input;
 
-    const productsDB = await this.productDatabase.findProducts(q);
+    // const { productsDB, brandsDB } =
+    //   await this.productDatabase.getProductsAndBrands(q);
 
-    // const products = productsDB.map(
-    //   (productDB) =>
-    //     new Product(
-    //       productDB.id,
-    //       productDB.name,
-    //       productDB.price,
-    //       productDB.description,
-    //       productDB.brand_id
-    //     )
-    // );
-    console.log(productsDB);
+    // const products = productsDB.map((productDB) => {
+    //   const product = new Product(
+    //     productDB.id,
+    //     productDB.name,
+    //     productDB.price,
+    //     productDB.description,
+    //     getBrand(productDB.brand_id)
+    //   );
+    //   return product;
+    // });
+
+    // function getBrand(brandId: string) {
+    //   const brand = brandsDB.find((brandDB) => brandDB.id === brandId);
+    //   return brand;
+    // }
+
+    // console.log(products);
     const output = {
-      productsDB,
+      // products,
     };
     return output;
   }

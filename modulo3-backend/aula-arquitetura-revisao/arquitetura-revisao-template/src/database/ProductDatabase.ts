@@ -1,20 +1,39 @@
-import { ProductDB } from "../models/Product";
 import { BaseDatabase } from "./BaseDatabase";
+import { Branddatabase } from "./BrandDatabase";
 
 export class ProductDatabase extends BaseDatabase {
   public static TABLE_PRODUCTS = "products";
 
-  public async findProducts(q: string | undefined): Promise<ProductDB[]> {
+  public async findProductByName(q: string) {
+    const productsDB = await BaseDatabase.connection(
+      ProductDatabase.TABLE_PRODUCTS
+    )
+      .select()
+      .where("name", "LIKE", `%${q}%`);
+    return productsDB;
+  }
+
+  public async findAllProducts() {
+    const productsDB = await BaseDatabase.connection(
+      ProductDatabase.TABLE_PRODUCTS
+    ).select();
+    return productsDB;
+  }
+
+  public async getProductsAndBrands(q: string | undefined) {
+    let productDB;
     if (q) {
-      const productsDB = await BaseDatabase.connection(
-        ProductDatabase.TABLE_PRODUCTS
-      ).where("name", "LIKE", `%${q}%`);
-      return productsDB;
+      productDB = await this.findProductByName(q);
     } else {
-      const productsDB = await BaseDatabase.connection(
-        ProductDatabase.TABLE_PRODUCTS
-      );
-      return productsDB;
+      productDB = await this.findAllProducts();
     }
+    const brands = await BaseDatabase.connection(
+      Branddatabase.TABLE_BRANDS
+    ).select();
+
+    return {
+      productDB,
+      brands,
+    };
   }
 }
