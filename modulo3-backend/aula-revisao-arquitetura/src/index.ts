@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { userRouter } from "./routes/userRouter";
+import { playlistRouter } from "./routes/playlistRouter";
 
 dotenv.config();
 
@@ -15,3 +16,5 @@ app.listen(Number(process.env.PORT) || 3003, () => {
 });
 
 app.use("/users", userRouter);
+
+app.use("/playlists", playlistRouter);
