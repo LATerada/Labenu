@@ -6,10 +6,12 @@ export interface EditPlaylistInputDTO {
   name: string;
 }
 
-export type EditPlaylistOutputDTO = undefined
+export type EditPlaylistOutputDTO = undefined;
 
-export const EditPlaylistSchema = z.object({
-  idToEdit: z.string().min(1),
-  token: z.string().min(1),
-  name: z.string().min(1),
-});
+export const EditPlaylistSchema = z
+  .object({
+    idToEdit: z.string().min(1),
+    token: z.string().min(1),
+    name: z.string().min(1),
+  })
+  .transform((data) => data as EditPlaylistInputDTO);

@@ -15,10 +15,14 @@ import {
   GetPlaylistsInputDTO,
   GetPlaylistsOutputDTO,
 } from "../dtos/playlist/getPlaylists.dto";
+import {
+  LikeOrDislikePlaylistInputDTO,
+  LikeOrDislikePlaylistOutputDTO,
+} from "../dtos/playlist/likeOrDislikePlaylist.dto";
 import { ForbiddenError } from "../errors/ForbiddenError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { UnauthorizedError } from "../errors/UnauthorizedError";
-import { Playlist } from "../models/Playlist";
+import { likeDislikeDB, Playlist, PLAYLIST_LIKE } from "../models/Playlist";
 import { USER_ROLES } from "../models/User";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager } from "../services/TokenManeger";
@@ -167,6 +171,81 @@ export class PlaylistBusiness {
     }
 
     await this.playlistDatabase.removePlaylist(idToDelete);
+
+    const output: DeletePlaylistOutputDTO = undefined;
+
+    return output;
+  };
+
+  public likeOrDislikePlaylist = async (
+    input: LikeOrDislikePlaylistInputDTO
+  ): Promise<LikeOrDislikePlaylistOutputDTO> => {
+    const { idToLikeOrDislike, token, like } = input;
+
+    const playload = this.tokeManeger.getPayload(token);
+
+    if (playload === null) {
+      throw new UnauthorizedError("Token inválido");
+    }
+
+    const playlistDBWithCreatorName =
+      await this.playlistDatabase.findPlaylistsWithCreatorNameById(
+        idToLikeOrDislike
+      );
+
+    if (!playlistDBWithCreatorName) {
+      throw new NotFoundError("playlist com essa id não existe");
+    }
+
+    const playlist = new Playlist(
+      playlistDBWithCreatorName.id,
+      playlistDBWithCreatorName.name,
+      playlistDBWithCreatorName.likes,
+      playlistDBWithCreatorName.dislikes,
+      playlistDBWithCreatorName.created_at,
+      playlistDBWithCreatorName.updated_at,
+      playlistDBWithCreatorName.creator_id,
+      playlistDBWithCreatorName.creator_name
+    );
+
+    const likeSQlite = like ? 1 : 0;
+
+    const likeDislikeDB: likeDislikeDB = {
+      user_id: playload.id,
+      playlist_id: idToLikeOrDislike,
+      like: likeSQlite,
+    };
+
+    const likeDislikeExists = await this.playlistDatabase.findLikeDislike(
+      likeDislikeDB
+    );
+
+    if (likeDislikeExists === PLAYLIST_LIKE.ALREADY_LIKED) {
+      if (like) {
+        await this.playlistDatabase.removeLikeDislike(likeDislikeDB);
+        playlist.removeLike();
+      } else {
+        await this.playlistDatabase.updateLikeDislike(likeDislikeDB);
+        playlist.removeLike();
+        playlist.addDislike();
+      }
+    } else if (likeDislikeExists === PLAYLIST_LIKE.ALREADY_DISLIKED) {
+      if (like === false) {
+        await this.playlistDatabase.removeLikeDislike(likeDislikeDB);
+        playlist.removeDislike();
+      } else {
+        await this.playlistDatabase.updateLikeDislike(likeDislikeDB);
+        playlist.removeDislike();
+        playlist.addLike();
+      }
+    } else {
+      await this.playlistDatabase.insertLikeDislike(likeDislikeDB);
+
+      like ? playlist.addLike() : playlist.addDislike();
+    }
+
+    const updatedPlaylistDB = playlist.toDBModel();
+    await this.playlistDatabase.updatePlaylist(updatedPlaylistDB);
 
     const output: DeletePlaylistOutputDTO = undefined;
 

@@ -89,7 +89,6 @@ UPDATE playlists SET likes = 1, dislikes = 1 WHERE id = 'p002';
 SELECT * FROM likes_dislikes;
 
 
-
 DROP TABLE likes_dislikes;
 DROP TABLE playlists;
 DROP TABLE users;

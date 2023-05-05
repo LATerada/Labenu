@@ -31,6 +31,16 @@ export interface PlaylistModel {
     name: string;
   };
 }
+export interface likeDislikeDB {
+  user_id: string;
+  playlist_id: string;
+  like: number;
+}
+
+export enum PLAYLIST_LIKE {
+  ALREADY_LIKED = "ALREADY_LIKED",
+  ALREADY_DISLIKED = "ALREADY_DISLIKED",
+}
 
 export class Playlist {
   constructor(
@@ -64,6 +74,18 @@ export class Playlist {
   public setLikes(value: number): void {
     this.likes = value;
   }
+  public addLike = (): void => {
+    this.likes++;
+  };
+  public removeLike = (): void => {
+    this.likes--;
+  };
+  public addDislike = (): void => {
+    this.dislikes++;
+  };
+  public removeDislike = (): void => {
+    this.dislikes--;
+  };
 
   public getDislikes(): number {
     return this.dislikes;
