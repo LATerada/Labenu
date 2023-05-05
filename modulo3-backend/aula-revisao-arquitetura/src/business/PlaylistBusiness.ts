@@ -4,6 +4,10 @@ import {
   CreatePlaylistOutputDTO,
 } from "../dtos/playlist/createPlaylist.dto";
 import {
+  DeletePlaylistInputDTO,
+  DeletePlaylistOutputDTO,
+} from "../dtos/playlist/deletePlaylist.dto";
+import {
   EditPlaylistInputDTO,
   EditPlaylistOutputDTO,
 } from "../dtos/playlist/editPlaylist.dto";
@@ -15,6 +19,7 @@ import { ForbiddenError } from "../errors/ForbiddenError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { UnauthorizedError } from "../errors/UnauthorizedError";
 import { Playlist } from "../models/Playlist";
+import { USER_ROLES } from "../models/User";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager } from "../services/TokenManeger";
 
@@ -76,7 +81,7 @@ export class PlaylistBusiness {
       (playlistsWithCreatorName) => {
         const playlist = new Playlist(
           playlistsWithCreatorName.id,
-          playlistsWithCreatorName.creator_id,
+          playlistsWithCreatorName.name,
           playlistsWithCreatorName.likes,
           playlistsWithCreatorName.dislikes,
           playlistsWithCreatorName.created_at,
@@ -132,6 +137,38 @@ export class PlaylistBusiness {
     await this.playlistDatabase.updatePlaylist(updatedPlaylistDB);
 
     const output: EditPlaylistOutputDTO = undefined;
+
+    return output;
+  };
+
+  public deletePlaylist = async (
+    input: DeletePlaylistInputDTO
+  ): Promise<DeletePlaylistOutputDTO> => {
+    const { idToDelete, token } = input;
+
+    const playload = this.tokeManeger.getPayload(token);
+
+    if (playload === null) {
+      throw new UnauthorizedError("Token inválido");
+    }
+
+    const playlistDB = await this.playlistDatabase.findPlaylistById(idToDelete);
+
+    if (!playlistDB) {
+      throw new NotFoundError("playlist com essa id não existe");
+    }
+
+    if (playload.role !== USER_ROLES.ADMIN) {
+      if (playload.id !== playlistDB.creator_id) {
+        throw new ForbiddenError(
+          "somente o criador da playlist pode deletá-la"
+        );
+      }
+    }
+
+    await this.playlistDatabase.removePlaylist(idToDelete);
+
+    const output: DeletePlaylistOutputDTO = undefined;
 
     return output;
   };
