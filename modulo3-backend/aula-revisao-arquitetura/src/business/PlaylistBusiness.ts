@@ -4,9 +4,14 @@ import {
   CreatePlaylistOutputDTO,
 } from "../dtos/playlist/createPlaylist.dto";
 import {
+  EditPlaylistInputDTO,
+  EditPlaylistOutputDTO,
+} from "../dtos/playlist/editPlaylist.dto";
+import {
   GetPlaylistsInputDTO,
   GetPlaylistsOutputDTO,
 } from "../dtos/playlist/getPlaylists.dto";
+import { ForbiddenError } from "../errors/ForbiddenError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { UnauthorizedError } from "../errors/UnauthorizedError";
 import { Playlist } from "../models/Playlist";
@@ -84,6 +89,49 @@ export class PlaylistBusiness {
     );
 
     const output: GetPlaylistsOutputDTO = playlists;
+
+    return output;
+  };
+
+  public editPlaylist = async (
+    input: EditPlaylistInputDTO
+  ): Promise<EditPlaylistOutputDTO> => {
+    const { idToEdit, name, token } = input;
+
+    const playload = this.tokeManeger.getPayload(token);
+
+    if (playload === null) {
+      throw new UnauthorizedError("Token inválido");
+    }
+
+    const playlistDB = await this.playlistDatabase.findPlaylistById(idToEdit);
+
+    if (!playlistDB) {
+      throw new NotFoundError("playlist com essa id não existe");
+    }
+
+    if (playload.id !== playlistDB.creator_id) {
+      throw new ForbiddenError("somente o criador da playlist pode editá-la");
+    }
+
+    const playlist = new Playlist(
+      playlistDB.id,
+      playlistDB.name,
+      playlistDB.likes,
+      playlistDB.dislikes,
+      playlistDB.created_at,
+      playlistDB.updated_at,
+      playload.id,
+      playload.name
+    );
+
+    playlist.setName(name);
+
+    const updatedPlaylistDB = playlist.toDBModel();
+
+    await this.playlistDatabase.updatePlaylist(updatedPlaylistDB);
+
+    const output: EditPlaylistOutputDTO = undefined;
 
     return output;
   };

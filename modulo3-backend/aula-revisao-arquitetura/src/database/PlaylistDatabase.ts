@@ -36,4 +36,19 @@ export class PlaylistDatabase extends BaseDatabase {
 
     return result as PlaylistDBWithCreatorName[];
   };
+
+  public findPlaylistById = async (
+    id: string
+  ): Promise<PlaylistDB | undefined> => {
+    const [result] = await BaseDatabase.connection(
+      PlaylistDatabase.TABLE_PLAYLIST
+    ).where({ id });
+    return result as PlaylistDB | undefined;
+  };
+
+  public updatePlaylist = async (playlistDB: PlaylistDB): Promise<void> => {
+    await BaseDatabase.connection(PlaylistDatabase.TABLE_PLAYLIST)
+      .update(playlistDB)
+      .where({ id: playlistDB.id });
+  };
 }
