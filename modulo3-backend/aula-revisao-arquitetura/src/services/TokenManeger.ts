@@ -12,7 +12,7 @@ export class TokenManager {
     return token;
   };
 
-  public getPayload = (token: string): TokenPayload | null => {
+  public getPayload = (token: string) : TokenPayload | null => {
     try {
       const payload = jwt.verify(token, process.env.JWT_KEY as string);
 

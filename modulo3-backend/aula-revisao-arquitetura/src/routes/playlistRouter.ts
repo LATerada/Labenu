@@ -14,3 +14,7 @@ const playlistController = new PlaylistController(
     new TokenManager()
   )
 );
+
+playlistRouter.post("/", playlistController.createPlaylist);
+
+playlistRouter.get("/", playlistController.getPlaylists)
