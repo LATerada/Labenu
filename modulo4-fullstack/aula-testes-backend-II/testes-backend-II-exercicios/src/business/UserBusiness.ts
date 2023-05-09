@@ -158,13 +158,15 @@ export class UserBusiness {
 
     if (payload.role !== USER_ROLES.ADMIN) {
       if (payload.role !== userDBExists.role) {
-        throw new BadRequestError("Somente o próprio usuário pode deletá-lo");
+        throw new BadRequestError("Somente o próprio usuário ou um admin pode deletar um usuário");
       }
     }
 
     await this.userDatabase.removeUser(idToDelete);
 
-    const output: DeleleUserOutputDTO = undefined;
+    const output: DeleleUserOutputDTO = {
+      message: "Usuário deletado com sucesso.",
+    };
 
     return output;
   };
@@ -188,7 +190,7 @@ export class UserBusiness {
 
     if (payload.role !== USER_ROLES.ADMIN) {
       if (payload.role !== userDB.role) {
-        throw new BadRequestError("Somente o próprio usuário pode encontrá-lo");
+        throw new BadRequestError("Somente o próprio usuário ou um admin pode buscar o usuário por id");
       }
     }
 

@@ -13,7 +13,7 @@ describe("Testando deleteUser", () => {
     new HashManagerMock()
   );
 
-  test("Deve retornar undefined", async () => {
+  test("Deve retornar mensagem ao deletar usuário", async () => {
     const input = DeleteUserSchema.parse({
       token: "token-mock-fulano",
       idToDelete: "id-mock-fulano",
@@ -21,6 +21,8 @@ describe("Testando deleteUser", () => {
 
     const output = await userBusiness.deleteUser(input);
 
-    expect(output).toBeUndefined();
+    expect(output).toEqual({
+      message: "Usuário deletado com sucesso.",
+    });
   });
 });
