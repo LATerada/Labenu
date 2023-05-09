@@ -156,6 +156,12 @@ export class UserBusiness {
       throw new NotFoundError("Usuário não encontrado");
     }
 
+    if (payload.role !== USER_ROLES.ADMIN) {
+      if (payload.role !== userDBExists.role) {
+        throw new BadRequestError("Somente o próprio usuário pode deletá-lo");
+      }
+    }
+
     await this.userDatabase.removeUser(idToDelete);
 
     const output: DeleleUserOutputDTO = undefined;
@@ -178,6 +184,12 @@ export class UserBusiness {
 
     if (!userDB) {
       throw new NotFoundError("Usuário não encontrado");
+    }
+
+    if (payload.role !== USER_ROLES.ADMIN) {
+      if (payload.role !== userDB.role) {
+        throw new BadRequestError("Somente o próprio usuário pode encontrá-lo");
+      }
     }
 
     const user = new User(

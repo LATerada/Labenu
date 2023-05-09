@@ -14,7 +14,7 @@ describe("Testando getUserById", () => {
     new HashManagerMock()
   );
 
-  test("Deve retornar undefined", async () => {
+  test("Deve retornar um usuário", async () => {
     const input = GetUserByIdSchema.parse({
       token: "token-mock-fulano",
       id: "id-mock-fulano",
