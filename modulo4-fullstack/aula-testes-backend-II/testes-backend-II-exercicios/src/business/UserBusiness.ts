@@ -1,13 +1,21 @@
-import { UserDatabase } from "../database/UserDatabase"
-import { GetUsersInputDTO, GetUsersOutputDTO } from "../dtos/user/getUsers.dto"
-import { LoginInputDTO, LoginOutputDTO } from "../dtos/user/login.dto"
-import { SignupInputDTO, SignupOutputDTO } from "../dtos/user/signup.dto"
-import { BadRequestError } from "../errors/BadRequestError"
-import { NotFoundError } from "../errors/NotFoundError"
-import { TokenPayload, USER_ROLES, User } from "../models/User"
-import { HashManager } from "../services/HashManager"
-import { IdGenerator } from "../services/IdGenerator"
-import { TokenManager } from "../services/TokenManager"
+import { UserDatabase } from "../database/UserDatabase";
+import {
+  DeleleUserInputDTO,
+  DeleleUserOutputDTO,
+} from "../dtos/user/deleteUser.dto";
+import {
+  GetUserByIdInputDTO,
+  GetUserByIdOutputDTO,
+} from "../dtos/user/getUserById.dto";
+import { GetUsersInputDTO, GetUsersOutputDTO } from "../dtos/user/getUsers.dto";
+import { LoginInputDTO, LoginOutputDTO } from "../dtos/user/login.dto";
+import { SignupInputDTO, SignupOutputDTO } from "../dtos/user/signup.dto";
+import { BadRequestError } from "../errors/BadRequestError";
+import { NotFoundError } from "../errors/NotFoundError";
+import { TokenPayload, USER_ROLES, User } from "../models/User";
+import { HashManager } from "../services/HashManager";
+import { IdGenerator } from "../services/IdGenerator";
+import { TokenManager } from "../services/TokenManager";
 
 export class UserBusiness {
   constructor(
@@ -15,24 +23,24 @@ export class UserBusiness {
     private idGenerator: IdGenerator,
     private tokenManager: TokenManager,
     private hashManager: HashManager
-  ) { }
+  ) {}
 
   public getUsers = async (
     input: GetUsersInputDTO
   ): Promise<GetUsersOutputDTO> => {
-    const { q, token } = input
+    const { q, token } = input;
 
-    const payload = this.tokenManager.getPayload(token)
+    const payload = this.tokenManager.getPayload(token);
 
     if (payload === null) {
-        throw new BadRequestError("token inválido")
-    } 
-
-    if (payload.role !== USER_ROLES.ADMIN) {
-      throw new BadRequestError("somente admins podem acessar")
+      throw new BadRequestError("token inválido");
     }
 
-    const usersDB = await this.userDatabase.findUsers(q)
+    if (payload.role !== USER_ROLES.ADMIN) {
+      throw new BadRequestError("somente admins podem acessar");
+    }
+
+    const usersDB = await this.userDatabase.findUsers(q);
 
     const users = usersDB.map((userDB) => {
       const user = new User(
@@ -42,23 +50,21 @@ export class UserBusiness {
         userDB.password,
         userDB.role,
         userDB.created_at
-      )
+      );
 
-      return user.toBusinessModel()
-    })
+      return user.toBusinessModel();
+    });
 
-    const output: GetUsersOutputDTO = users
+    const output: GetUsersOutputDTO = users;
 
-    return output
-  }
+    return output;
+  };
 
-  public signup = async (
-    input: SignupInputDTO
-  ): Promise<SignupOutputDTO> => {
-    const { name, email, password } = input
+  public signup = async (input: SignupInputDTO): Promise<SignupOutputDTO> => {
+    const { name, email, password } = input;
 
-    const id = this.idGenerator.generate()
-    const hashedPassword = await this.hashManager.hash(password)
+    const id = this.idGenerator.generate();
+    const hashedPassword = await this.hashManager.hash(password);
 
     const newUser = new User(
       id,
@@ -67,44 +73,45 @@ export class UserBusiness {
       hashedPassword,
       USER_ROLES.NORMAL,
       new Date().toISOString()
-    )
+    );
 
-    const newUserDB = newUser.toDBModel()
-    await this.userDatabase.insertUser(newUserDB)
+    const newUserDB = newUser.toDBModel();
+    await this.userDatabase.insertUser(newUserDB);
 
     const tokenPayload: TokenPayload = {
       id: newUser.getId(),
       name: newUser.getName(),
-      role: newUser.getRole()
-    }
+      role: newUser.getRole(),
+    };
 
-    const token = this.tokenManager.createToken(tokenPayload)
+    const token = this.tokenManager.createToken(tokenPayload);
 
     const output: SignupOutputDTO = {
       message: "Cadastro realizado com sucesso",
-      token: token
-    }
+      token: token,
+    };
 
-    return output
-  }
+    return output;
+  };
 
-  public login = async (
-    input: LoginInputDTO
-  ): Promise<LoginOutputDTO> => {
-    const { email, password } = input
+  public login = async (input: LoginInputDTO): Promise<LoginOutputDTO> => {
+    const { email, password } = input;
 
-    const userDB = await this.userDatabase.findUserByEmail(email)
+    const userDB = await this.userDatabase.findUserByEmail(email);
 
     if (!userDB) {
-      throw new NotFoundError("'email' não encontrado")
+      throw new NotFoundError("'email' não encontrado");
     }
 
-    const hashedPassword = userDB.password
+    const hashedPassword = userDB.password;
 
-    const isPasswordCorrect = await this.hashManager.compare(password, hashedPassword)
+    const isPasswordCorrect = await this.hashManager.compare(
+      password,
+      hashedPassword
+    );
 
     if (!isPasswordCorrect) {
-      throw new BadRequestError("'email' ou 'password' incorretos")
+      throw new BadRequestError("'email' ou 'password' incorretos");
     }
 
     const user = new User(
@@ -114,21 +121,77 @@ export class UserBusiness {
       userDB.password,
       userDB.role,
       userDB.created_at
-    )
+    );
 
     const tokenPayload: TokenPayload = {
       id: user.getId(),
       name: user.getName(),
-      role: user.getRole()
-    }
+      role: user.getRole(),
+    };
 
-    const token = this.tokenManager.createToken(tokenPayload)
+    const token = this.tokenManager.createToken(tokenPayload);
 
     const output: LoginOutputDTO = {
       message: "Login realizado com sucesso",
-      token: token
+      token: token,
+    };
+
+    return output;
+  };
+
+  public deleteUser = async (
+    input: DeleleUserInputDTO
+  ): Promise<DeleleUserOutputDTO> => {
+    const { idToDelete, token } = input;
+
+    const payload = this.tokenManager.getPayload(token);
+
+    if (!payload) {
+      throw new BadRequestError("Token inválido");
     }
 
-    return output
-  }
+    const userDBExists = await this.userDatabase.findUserById(idToDelete);
+
+    if (!userDBExists) {
+      throw new NotFoundError("Usuário não encontrado");
+    }
+
+    await this.userDatabase.removeUser(idToDelete);
+
+    const output: DeleleUserOutputDTO = undefined;
+
+    return output;
+  };
+
+  public getUserById = async (
+    input: GetUserByIdInputDTO
+  ): Promise<GetUserByIdOutputDTO> => {
+    const { id, token } = input;
+
+    const payload = this.tokenManager.getPayload(token);
+
+    if (!payload) {
+      throw new BadRequestError("Token inválido");
+    }
+
+    const userDB = await this.userDatabase.findUserById(id);
+
+    if (!userDB) {
+      throw new NotFoundError("Usuário não encontrado");
+    }
+
+    const user = new User(
+      userDB.id,
+      userDB.name,
+      userDB.email,
+      userDB.password,
+      userDB.role,
+      userDB.created_at
+    );
+
+    const userModel = user.toBusinessModel();
+    const output: GetUserByIdOutputDTO = userModel;
+
+    return output;
+  };
 }
