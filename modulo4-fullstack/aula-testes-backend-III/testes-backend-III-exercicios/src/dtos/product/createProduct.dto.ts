@@ -14,6 +14,6 @@ export interface CreateProductOutputDTO {
 
 export const CreateProductSchema = z.object({
   name: z.string().min(2),
-  price: z.number(),
+  price: z.number().gt(0),
   token: z.string().min(1)
 }).transform(data => data as CreateProductInputDTO)
