@@ -69,42 +69,42 @@ describe("Testando createProduct", () => {
     }
   });
 
-//   test("deve retornar erro de preço inválido pelo Zod", async () => {
-//     expect.assertions(3);
-//     try {
-//       const input = CreateProductSchema.parse({
-//         name: "Notebook",
-//         price: 0,
-//         token: "token-mock-astrodev",
-//       });
-
-//       const output = await productBusiness.createProduct(input);
-//     } catch (error) {
-//       if (error instanceof ZodError) {
-//         console.log(error.issues);
-//         expect(error.issues[0].code).toBe("too_small");
-//         expect(error.issues[0].message).toBe("Number must be greater than 0");
-//         expect(error.issues).toEqual([
-//           {
-//             code: "too_small",
-//             minimum: 0,
-//             type: "number",
-//             inclusive: false,
-//             exact: false,
-//             message: "Number must be greater than 0",
-//             path: ["price"],
-//           },
-//         ]);
-//       }
-//     }
-//   });
-
-  test("deve retornar erro de preço inválido pelo BadRequestError", async () => {
-    expect.assertions(2);
+  test("deve retornar erro de preço inválido pelo Zod", async () => {
+    expect.assertions(3);
     try {
       const input = CreateProductSchema.parse({
         name: "Notebook",
         price: 0,
+        token: "token-mock-astrodev",
+      });
+
+      const output = await productBusiness.createProduct(input);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.log(error.issues);
+        expect(error.issues[0].code).toBe("too_small");
+        expect(error.issues[0].message).toBe("Number must be greater than 0");
+        expect(error.issues).toEqual([
+          {
+            code: "too_small",
+            minimum: 0,
+            type: "number",
+            inclusive: false,
+            exact: false,
+            message: "Number must be greater than 0",
+            path: ["price"],
+          },
+        ]);
+      }
+    }
+  });
+
+  test("deve retornar erro de preço inválido pelo BadRequestError", async () => {
+    expect.assertions(2);
+    try {
+      const input = ({
+        name: "Notebook",
+        price: -50,
         token: "token-mock-astrodev",
       });
 
